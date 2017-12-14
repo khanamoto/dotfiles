@@ -121,12 +121,12 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 alias la='ls -a'
 alias ll='ls -l'
-
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-
 alias mkdir='mkdir -p'
+alias n='nvim'
+alias g='git'
 
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
@@ -226,3 +226,22 @@ zle -N peco-src
 # Node
 ## nodebrewのパスを通す
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+# tmuxの起動設定
+if [[ ! -n $TMUX && $- == *l* ]]; then
+  # get the IDs
+  ID="`tmux list-sessions`"
+  if [[ -z "$ID" ]]; then
+    tmux new-session
+  fi
+  create_new_session="Create New Session"
+  ID="$ID\n${create_new_session}:"
+  ID="`echo $ID | $PECO | cut -d: -f1`"
+  if [[ "$ID" = "${create_new_session}" ]]; then
+    tmux new-session
+  elif [[ -n "$ID" ]]; then
+    tmux attach-session -t "$ID"
+  else
+    :  # Start terminal normally
+  fi
+fi

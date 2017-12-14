@@ -16,3 +16,12 @@
 	root = /Users/hanamotokenji/dev/src
 [core]
 	editor = vim
+	excludesfile = /Users/hanamotokenji/.gitignore_global
+[alias]
+	ad = add
+	ps = push
+	cm = commit
+	pl = pull
+	rs = reset
+	rv = revert
+	ft = fetch
