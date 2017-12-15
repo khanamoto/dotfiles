@@ -1,32 +1,18 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
-[[plugins]]
+[[plugins]] # Unite.vimが依存（↓ではbuildできないから手動でmakeした）
 repo = 'Shougo/vimproc.vim'
-# プラグインが更新された直後に実行
-hook_post_update = '''
-  if dein#util#_is_windows()
-    let cmd = 'tools\\update-dll-mingw'
-  elseif dein#util#_is_cygwin()
-    let cmd = 'make -f make_cygwin.mak'
-  elseif executable('gmake')
-    let cmd = 'gmake'
-  else
-    let cmd = 'make'
-  endif
-  let g:dein#plugin.build = cmd
-'''
+# build = 'make' # 失敗
+# hook_post_source = '''
+#   call dein#add('Shougo/vimproc.vim', {'build': 'make'}) # 失敗
+# '''
 
-[[plugins]] # Golang
-repo = 'fatih/vim-go'
-on_ft = 'go'
+[[plugins]] # vimfilerが依存
+repo   = 'Shougo/unite.vim'
 
-[[plugins]] # TOMLのシンタックスハイライト
-repo  = 'cespare/vim-toml'
-on_ft = 'toml'
-
-[[plugins]] # ステータス行を見やすく
-repo = 'itchyny/lightline.vim'
+[[plugins]] # VSCodeっぽいファイラ（後継としてdefx.nvimが開発中）
+repo = 'Shougo/vimfiler'
 
 # [[plugins]] # Unite.vimの後継（vimfilerの依存として使えないから保留。将来的にdenite.nvim+defx.nvimの組み合わせにする予定）
 # repo = 'Shougo/denite.nvim'
@@ -38,12 +24,3 @@ repo = 'itchyny/lightline.vim'
 #   call denite#custom#var('grep', 'pattern_opt', [])
 #   call denite#custom#var('grep', 'default_opts', ['--follow', '--no-group', '--no-color'])
 # '''
-
-[[plugins]] # vimfilerを使うために入れる
-repo   = 'Shougo/unite.vim'
-
-[[plugins]] # VSCodeっぽいファイラ（後継としてdefx.nvimが開発中）
-repo = 'Shougo/vimfiler'
-
-[[plugins]] # VSCodeっぽい非同期のエラー表示
-repo = 'w0rp/ale'

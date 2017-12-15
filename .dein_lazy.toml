@@ -1,0 +1,27 @@
+[[plugins]] # goコマンド補完
+repo = 'fatih/vim-go'
+on_ft = 'go'
+
+[[plugins]] # vim-go代替
+repo = 'zchee/nvim-go'
+build = 'make'
+on_ft = 'go'
+
+[[plugins]] # コード補完
+repo = 'Shougo/deoplete.nvim'
+# プラグインが dein.vim によって追加されたとき実行
+hook_add = 'let g:deoplete#enable_at_startup = 1'
+
+[[plugins]] # コード補完（Golang用）
+repo = 'zchee/deoplete-go'
+on_ft = 'go'
+
+[[plugins]] # TOMLのシンタックスハイライト
+repo  = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]] # ステータス行を見やすく
+repo = 'itchyny/lightline.vim'
+
+[[plugins]] # VSCodeっぽい非同期のエラー表示
+repo = 'w0rp/ale'
