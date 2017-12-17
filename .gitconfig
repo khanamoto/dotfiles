@@ -25,3 +25,4 @@
 	rs = reset
 	rv = revert
 	ft = fetch
+	st = status
