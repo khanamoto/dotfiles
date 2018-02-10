@@ -7,14 +7,18 @@ repo = 'zchee/nvim-go'
 build = 'make'
 on_ft = 'go'
 
-[[plugins]] # コード補完
+[[plugins]] # コード補完（いろいろ）
 repo = 'Shougo/deoplete.nvim'
 # プラグインが dein.vim によって追加されたとき実行
 hook_add = 'let g:deoplete#enable_at_startup = 1'
 
-[[plugins]] # コード補完（Golang用）
+[[plugins]] # コード補完（Golang）
 repo = 'zchee/deoplete-go'
 on_ft = 'go'
+
+[[plugins]] # コード補完（Python）
+repo = 'zchee/deoplete-jedi'
+on_ft = 'python'
 
 [[plugins]] # TOMLのシンタックスハイライト
 repo  = 'cespare/vim-toml'

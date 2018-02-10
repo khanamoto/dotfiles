@@ -21,7 +21,7 @@ SAVEHIST=1000000
 
 # プロンプト
 # 2行表示
-PROMPT="%{${fg[green]}%}[%n]%{${reset_color}%} %~/
+PROMPT="%{${fg[green]}%}[%n]%{${reset_color}%} %~
 $ "
 
 
