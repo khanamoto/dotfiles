@@ -201,6 +201,11 @@ if [ -d "${PYENV_ROOT}" ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
+# Ruby環境設定
+[[ -d ~/.rbenv ]] && \
+    export PATH=${HOME}/.rbenv/bin:${PATH} && \
+    eval "$(rbenv init -)"
+
 # GOROOT
 export PATH=/usr/local/go/bin:$PATH
 
