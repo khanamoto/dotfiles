@@ -108,6 +108,9 @@ setopt hist_reduce_blanks
 # 高機能なワイルドカード展開を使用する
 setopt extended_glob
 
+# グロブ展開停止
+setopt nonomatch
+
 ########################################
 # キーバインド
 
@@ -248,3 +251,6 @@ if [[ ! -n $TMUX && $- == *l* ]]; then
     :  # Start terminal normally
   fi
 fi
+
+# Rust環境変数の設定
+export PATH="$HOME/.cargo/bin:$PATH"
