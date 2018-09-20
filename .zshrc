@@ -187,12 +187,6 @@ export PATH
 # Wp-CLIにPATHを通す
 export PATH=/usr/local/Cellar/wp-cli/0.24.1/bin:$PATH
 
-# ターミナルでMacVimを起動
-if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
-  alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-  alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-fi
-
 # PostgreSQL設定（DBの置き場所）
 export PGDATA=/usr/local/var/postgres
 
