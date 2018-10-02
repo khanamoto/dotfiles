@@ -1,4 +1,28 @@
 "
+" Vundleの設定
+"
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+" 導入したいプラグインを以下に列挙
+" Plugin '[Github Author]/[Github repo]' の形式で記入
+" Git差分を左に表示
+Plugin 'airblade/vim-gitgutter'
+
+" Rustの設定
+" rust.vim（ハイライト、インデント）
+Plugin 'rust-lang/rust.vim'
+" vim-racer（コード補完）
+Plugin 'racer-rust/vim-racer'
+
+call vundle#end()
+filetype plugin indent on
+
+"
 " Vim8用サンプル vimrc
 "
 if has('win32')                   " Windows 32bit または 64bit ?
@@ -115,51 +139,3 @@ catch /E411/
 endtry
 
 " vim:set et ts=2 sw=0:
-
-"-------------------------------------------------------------------------------
-" dein.vimの設定
-if &compatible
-  set nocompatible               " Be iMproved
-endif
-
-" Required:
-set runtimepath+=/Users/hanamotokenji/.vim/bundles/repos/github.com/Shougo/dein.vim
-
-" Required:
-if dein#load_state('/Users/hanamotokenji/.vim/bundles')
-  call dein#begin('/Users/hanamotokenji/.vim/bundles')
-
-  " Let dein manage dein
-  " Required:
-  call dein#add('/Users/hanamotokenji/.vim/bundles/repos/github.com/Shougo/dein.vim')
-
-  " Add or remove your plugins here:
-  call dein#add('Shougo/neosnippet.vim')
-  call dein#add('Shougo/neosnippet-snippets')
-
-  " You can specify revision/branch/tag.
-  call dein#add('Shougo/deol.nvim', { 'rev': '01203d4c9' })
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
-
-" Required:
-filetype plugin indent on
-syntax enable
-
-" If you want to install not installed plugins on startup.
-if dein#check_install()
- call dein#install()
-endif
-
-"-------------------------------------------------------------------------------
-" deoplete.nvimの設定
-call dein#add('Shougo/deoplete.nvim')
-call dein#add('zchee/deoplete-go', {'build': 'make'})
-if !has('nvim')
-  call dein#add('roxma/nvim-yarp')
-  call dein#add('roxma/vim-hug-neovim-rpc')
-endif
-let g:deoplete#enable_at_startup = 1
