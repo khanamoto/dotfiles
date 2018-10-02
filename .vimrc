@@ -1,28 +1,4 @@
 "
-" Vundleの設定
-"
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-
-" 導入したいプラグインを以下に列挙
-" Plugin '[Github Author]/[Github repo]' の形式で記入
-" Git差分を左に表示
-Plugin 'airblade/vim-gitgutter'
-
-" Rustの設定
-" rust.vim（ハイライト、インデント）
-Plugin 'rust-lang/rust.vim'
-" vim-racer（コード補完）
-Plugin 'racer-rust/vim-racer'
-
-call vundle#end()
-filetype plugin indent on
-
-"
 " Vim8用サンプル vimrc
 "
 if has('win32')                   " Windows 32bit または 64bit ?
@@ -77,6 +53,34 @@ noremap <3-MiddleMouse> <Nop>
 noremap! <3-MiddleMouse> <Nop>
 noremap <4-MiddleMouse> <Nop>
 noremap! <4-MiddleMouse> <Nop>
+
+"===============================================================================
+" Vundleの設定
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+" 導入したいプラグインを以下に列挙
+" Plugin '[Github Author]/[Github repo]' の形式で記入
+" Git差分を左に表示
+Plugin 'airblade/vim-gitgutter'
+
+" Rustプラグイン
+" rust.vim（ハイライト、インデント）
+Plugin 'rust-lang/rust.vim'
+" vim-racer（コード補完）
+Plugin 'racer-rust/vim-racer'
+
+call vundle#end()
+filetype plugin indent on
+
+" vim-racerの設定
+set hidden
+let g:racer_cmd = '~/.cargo/bin/racer'
+let g:racer_experimental_completer = 1
 
 "-------------------------------------------------------------------------------
 " ステータスライン設定
