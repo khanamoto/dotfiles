@@ -1,250 +1,115 @@
-# 少し凝った zshrc
-# License : MIT
-# http://mollifier.mit-license.org/
-
-########################################
-# 環境変数
-export LANG=ja_JP.UTF-8
-
-
-# 色を使用出来るようにする
+# --------------------------------------------------
+# 一般設定
+# --------------------------------------------------
+# 補完機能の強化
+autoload -U compinit && compinit
+# プロンプトの色を変更する
 autoload -Uz colors
 colors
-
-# emacs 風キーバインドにする
-bindkey -e
-
-# ヒストリの設定
-HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
-
-# プロンプト
-# 2行表示
-PROMPT="%{${fg[green]}%}[%n]%{${reset_color}%} %~
-$ "
-
-
-# 単語の区切り文字を指定する
-autoload -Uz select-word-style
-select-word-style default
-# ここで指定した文字は単語区切りとみなされる
-# / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
-zstyle ':zle:*' word-chars " /=;@:{},|"
-zstyle ':zle:*' word-style unspecified
-
-########################################
-# 補完
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit
-
-# 補完で小文字でも大文字にマッチさせる
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-# ../ の後は今いるディレクトリを補完しない
-zstyle ':completion:*' ignore-parents parent pwd ..
-
-# sudo の後ろでコマンド名を補完する
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                   /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-
-# ps コマンドのプロセス名補完
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-
-
-########################################
-# vcs_info
-autoload -Uz vcs_info
-autoload -Uz add-zsh-hook
-
-zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
-zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
-
-function _update_vcs_info_msg() {
-    LANG=en_US.UTF-8 vcs_info
-    RPROMPT="${vcs_info_msg_0_}"
-}
-add-zsh-hook precmd _update_vcs_info_msg
-
-
-########################################
-# オプション
-# 日本語ファイル名を表示可能にする
-setopt print_eight_bit
-
-# beep を無効にする
-setopt no_beep
-
-# フローコントロールを無効にする
-setopt no_flow_control
-
-# Ctrl+Dでzshを終了しない
-setopt ignore_eof
-
-# '#' 以降をコメントとして扱う
+# 入力しているコマンド名が間違っている場合にもしかして：を出す
+setopt correct
+# ビープを鳴らさない
+setopt nobeep
+# バックグラウンドジョブが終了したらすぐに知らせる
+setopt no_tify
+# タブによるファイルの順番切り替えをしない
+unsetopt auto_menu
+# cd -[tab]で過去のディレクトリにひとっ飛びできるようにする
+setopt auto_pushd
+# ディレクトリ名を入力するだけでcdできるようにする
+setopt auto_cd
+# コマンドラインでも # 以降をコメントと見なす
 setopt interactive_comments
 
-# ディレクトリ名だけでcdする
-setopt auto_cd
-
-# cd したら自動的にpushdする
-setopt auto_pushd
-# 重複したディレクトリを追加しない
-setopt pushd_ignore_dups
-
-# 同時に起動したzshの間でヒストリを共有する
-setopt share_history
-
-# 同じコマンドをヒストリに残さない
+# --------------------------------------------------
+# ヒストリ設定
+# --------------------------------------------------
+# ヒストリファイル名
+HISTFILE=$HOME/.zsh_history
+# メモリに保存される履歴の件数
+HISTSIZE=10000
+# 履歴ファイルに保存される履歴の件数
+SAVEHIST=10000
+# 直前と同じコマンドをヒストリに追加しない
+setopt hist_ignore_dups
+# 重複するコマンドは古い法を削除する
 setopt hist_ignore_all_dups
-
-# スペースから始まるコマンド行はヒストリに残さない
-setopt hist_ignore_space
-
-# ヒストリに保存するときに余分なスペースを削除する
+# 異なるウィンドウでコマンドヒストリを共有する
+setopt share_history
+# historyコマンドは履歴に登録しない
+setopt hist_no_store
+# 余分な空白は詰めて記録
 setopt hist_reduce_blanks
+# `!!`を実行したときにいきなり実行せずコマンドを見せる
+setopt hist_verify
 
-# 高機能なワイルドカード展開を使用する
-setopt extended_glob
-
-# グロブ展開停止
-setopt nonomatch
-
-########################################
-# キーバインド
-
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
-
-########################################
-# エイリアス
-
-alias la='ls -a'
-alias ll='ls -l'
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-alias mkdir='mkdir -p'
-alias n='nvim'
+# --------------------------------------------------
+# エイリアス設定
+# --------------------------------------------------
+alias ..='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias v='vim'
 alias g='git'
+alias ga='git add'
+alias gc='git commit'
+alias gps='git push'
+alias gpl='git pull'
+alias gs='git status'
+alias gb='git branch'
+alias gco='git checkout'
+alias gf='git fetch -p'
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias gla="git log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias gss='git stash --include-untracked'
 
-# sudo の後のコマンドでエイリアスを有効にする
-alias sudo='sudo '
-
-# グローバルエイリアス
-alias -g L='| less'
-alias -g G='| grep'
-
-# C で標準出力をクリップボードにコピーする
-# mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
-if which pbcopy >/dev/null 2>&1 ; then
-    # Mac
-    alias -g C='| pbcopy'
-elif which xsel >/dev/null 2>&1 ; then
-    # Linux
-    alias -g C='| xsel --input --clipboard'
-elif which putclip >/dev/null 2>&1 ; then
-    # Cygwin
-    alias -g C='| putclip'
+# --------------------------------------------------
+# プロンプト設定
+# --------------------------------------------------
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Customize to your needs...
+autoload -Uz promptinit
+promptinit
+prompt pure
 
+# --------------------------------------------------
+# 環境変数設定
+# --------------------------------------------------
+# rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
-########################################
-# OS 別の設定
-case ${OSTYPE} in
-    darwin*)
-        #Mac用の設定
-        export CLICOLOR=1
-        alias ls='ls -G -F'
-        ;;
-    linux*)
-        #Linux用の設定
-        alias ls='ls -F --color=auto'
-        ;;
-esac
-
-# vim:set ft=zsh:
-
-
-########################################
-# ComposerにPATHを通す
-export PATH=~/.composer/vendor/bin:$PATH
-
-# pyenv
-# export PYENV_ROOT=${HOME}/.pyenv
-# if [ -d "${PYENV_ROOT}" ]; then
-#     export PATH=${PYENV_ROOT}/bin:$PATH
-#     eval "$(pyenv init -)"
-# fi
-
-# Homebrew
-# PATHの優先順位を、元からある/usr/binより/usr/local/binを優先
-PATH="/usr/local/bin:$PATH"
-export PATH
-
-# Wp-CLIにPATHを通す
-export PATH=/usr/local/Cellar/wp-cli/0.24.1/bin:$PATH
-
-# PostgreSQL設定（DBの置き場所）
-export PGDATA=/usr/local/var/postgres
-
-# Python環境設定
-export PYENV_ROOT=${HOME}/.pyenv
-if [ -d "${PYENV_ROOT}" ]; then
-    export PATH=${PYENV_ROOT}/bin:$PATH
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-# Ruby環境設定
-[[ -d ~/.rbenv ]] && \
-    export PATH=${HOME}/.rbenv/bin:${PATH} && \
-    eval "$(rbenv init -)"
-
-# GOROOT
-export PATH=/usr/local/go/bin:$PATH
-
-# GOPATH再設定
+# go
 export GOPATH=$HOME/dev
 export PATH=$PATH:$GOPATH/bin
+# 研修用(Go 1.12)
+# export GO111MODULE=on
 
-# pecoとghqの組み合わせ
+# node.js
+export PATH=$PATH:$HOME/.nodebrew/current/bin
+
+# --------------------------------------------------
+# その他設定
+# --------------------------------------------------
+# pecoとghqで簡単にリポジトリ移動をする
 bindkey '^]' peco-src
 
 function peco-src() {
-    local src=$(ghq list --full-path | peco --query "$LBUFFER")
-    if [ -n "$src" ]; then
-        BUFFER="cd $src"
-        zle accept-line
-    fi
-    zle -R -c
+  local src=$(ghq list --full-path | peco --query "$LBUFFER")
+  if [ -n "$src" ]; then
+    BUFFER="cd $src"
+    zle accept-line
+  fi
+  zle -R -c
 }
 zle -N peco-src
 
-# Node
-## nodebrewのパスを通す
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/khanamoto/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/khanamoto/google-cloud-sdk/path.zsh.inc'; fi
 
-# tmuxの起動設定
-if [[ ! -n $TMUX && $- == *l* ]]; then
-  # get the IDs
-  ID="`tmux list-sessions`"
-  if [[ -z "$ID" ]]; then
-    tmux new-session
-  fi
-  create_new_session="Create New Session"
-  ID="$ID\n${create_new_session}:"
-  ID="`echo $ID | $PECO | cut -d: -f1`"
-  if [[ "$ID" = "${create_new_session}" ]]; then
-    tmux new-session
-  elif [[ -n "$ID" ]]; then
-    tmux attach-session -t "$ID"
-  else
-    :  # Start terminal normally
-  fi
-fi
-
-# Rust環境変数の設定
-export PATH="$HOME/.cargo/bin:$PATH"
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/khanamoto/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/khanamoto/google-cloud-sdk/completion.zsh.inc'; fi
